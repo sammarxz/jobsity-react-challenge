@@ -3,41 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  * + * {
-    @apply mt-8;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply my-2;
-  }
-
-  h1 {
-    @apply text-3xl;
-  }
-
-  h2 {
-    @apply text-2xl;
-  }
-
-  h3 {
-    @apply text-xl;
-  }
-
-  h4,
-  h5 {
-    @apply text-lg;
-  }
-
-  li {
-    @apply mt-2;
-  }
-
   .content {
-    @apply container mx-auto my-8;
+    @apply max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6;
   }
 }

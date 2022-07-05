@@ -1,11 +1,17 @@
 import React from "react";
 
-function Calendar(props) {
-  // your calendar implementation Goes here!
-  // Be creative
+import CalendarUI from "../components/CalendarUI";
+import Header from "../components/Header";
+
+function Calendar() {
+  const selectDate = (selectedDay) => {
+    console.log(selectedDay);
+  };
+
   return (
-    <div className="container">
-      <h1>Calendar</h1>
+    <div className="content">
+      <Header />
+      <CalendarUI onSelectDate={selectDate} />
     </div>
   );
 }
