@@ -12,12 +12,14 @@ import {
   isToday,
   parse,
   startOfToday,
+  isSameDay,
+  parseISO,
 } from "date-fns";
 import PropTypes from "prop-types";
 
 import classNames from "../utils/classNames";
 
-function CalendarUI({ onSelectDate }) {
+function CalendarUI({ onSelectDate, reminders }) {
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
@@ -40,11 +42,11 @@ function CalendarUI({ onSelectDate }) {
 
   useEffect(() => {
     onSelectDate(selectedDay);
-  }, [selectedDay]);
+  }, [selectedDay, onSelectDate]);
 
   return (
     <div className="rounded-t">
-      <div className="flex items-center px-4 sm:px-4 md:px-11">
+      <div className="flex items-center">
         <h2 className="flex-auto font-semibold text-gray-900">
           {format(firstDayCurrentMonth, "MMMM yyyy")}
         </h2>
@@ -72,13 +74,13 @@ function CalendarUI({ onSelectDate }) {
           <div key={weekDay}>{weekDay}</div>
         ))}
       </div>
-      <div className="grid grid-cols-7 mt-2 text-base">
+      <div className="grid grid-cols-7 mt-2 text-sm">
         {days.map((day, dayIdx) => (
           <div
             key={day.toString()}
             className={classNames(
               dayIdx === 0 && colStartClasses[getDay(day)],
-              "py-2"
+              "py-1"
             )}
           >
             <button
@@ -100,13 +102,22 @@ function CalendarUI({ onSelectDate }) {
                 isEqual(day, selectedDay) && !isToday(day) && "bg-blue-900",
                 !isEqual(day, selectedDay) && "hover:bg-blue-100",
                 (isEqual(day, selectedDay) || isToday(day)) && "font-semibold",
-                "mx-auto flex h-12 w-12 items-center justify-center rounded-full"
+                "mx-auto flex h-10 w-10 items-center justify-center rounded-full"
               )}
             >
               <time dateTime={format(day, "yyyy-MM-dd")}>
                 {format(day, "d")}
               </time>
             </button>
+            {reminders && (
+              <div className="w-1.5 h-1.5 mx-auto mt-1">
+                {reminders.some((reminder) =>
+                  isSameDay(parseISO(reminder.startDatetime), day)
+                ) && (
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -116,6 +127,14 @@ function CalendarUI({ onSelectDate }) {
 
 CalendarUI.propTypes = {
   onSelectDate: PropTypes.func,
+  reminders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      startDate: PropTypes.string,
+      endSate: PropTypes.string,
+    })
+  ),
 };
 
 CalendarUI.defaultProps = {
