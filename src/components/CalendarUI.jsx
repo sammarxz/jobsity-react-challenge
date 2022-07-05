@@ -69,7 +69,7 @@ function CalendarUI({ onSelectDate, reminders }) {
           <ChevronRight className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
-      <div className="grid grid-cols-7 mt-10 text-sm leading-6 text-center text-gray-500">
+      <div className="grid grid-cols-7 mt-6 text-sm leading-6 text-center text-gray-400">
         {weekDays.map((weekDay) => (
           <div key={weekDay}>{weekDay}</div>
         ))}

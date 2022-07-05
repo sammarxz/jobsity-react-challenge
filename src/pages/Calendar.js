@@ -46,7 +46,7 @@ function Calendar() {
   const [selectedDay, setSelectedDay] = useState("");
 
   return (
-    <div className="content">
+    <div className="content mb-16">
       <Header />
       <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
         <section className="md:pr-14">
