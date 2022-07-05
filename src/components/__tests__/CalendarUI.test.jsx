@@ -1,6 +1,6 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { format, startOfToday, add, parse } from "date-fns";
+import { format, startOfToday, add } from "date-fns";
 
 import CalendarUI from "../CalendarUI";
 
