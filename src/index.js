@@ -7,8 +7,7 @@ import reducers from "./reducers";
 import reportWebVitals from "./reportWebVitals";
 import getStore from "./store/getStore";
 
-// import main sass file
-import "./sass/app.scss";
+import "./styles/index.css";
 
 ReactDOM.render(
   <React.StrictMode>
