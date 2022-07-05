@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import {
   add,
   eachDayOfInterval,
@@ -15,6 +14,7 @@ import {
   isSameDay,
   parseISO,
 } from "date-fns";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import PropTypes from "prop-types";
 
 import classNames from "../utils/classNames";
@@ -57,7 +57,7 @@ function CalendarUI({ onSelectDate, reminders }) {
           className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
         >
           <span className="sr-only">Previous month</span>
-          <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
+          <ChevronLeft className="w-5 h-5" aria-hidden="true" />
         </button>
         <button
           onClick={nextMonth}
@@ -66,7 +66,7 @@ function CalendarUI({ onSelectDate, reminders }) {
           className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
         >
           <span className="sr-only">Next month</span>
-          <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
+          <ChevronRight className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
       <div className="grid grid-cols-7 mt-10 text-sm leading-6 text-center text-gray-500">

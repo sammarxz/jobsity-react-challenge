@@ -1,5 +1,5 @@
-import { ClockIcon, LocationMarkerIcon, SunIcon } from "@heroicons/react/solid";
 import { format, parseISO } from "date-fns";
+import { Pin, Clock, Sun } from "lucide-react";
 import PropTypes from "prop-types";
 
 function Reminder({ reminder }) {
@@ -12,7 +12,7 @@ function Reminder({ reminder }) {
         <p className="text-gray-900 text-base">{reminder.title}</p>
         <div className="flex flex-auto items-center gap-2">
           <span className="flex items-center gap-1">
-            <ClockIcon className="w-4 h-4" />
+            <Clock className="w-4 h-4" />
             <p className="mt-0.5">
               <time dateTime={reminder.startDatetime}>
                 {format(startDateTime, "h:mm a")}
@@ -24,11 +24,11 @@ function Reminder({ reminder }) {
             </p>
           </span>
           <span className="flex items-center gap-1">
-            <LocationMarkerIcon className="w-4 h-4" />
+            <Pin className="w-4 h-4" />
             {reminder.location}
           </span>
           <span className="flex items-center gap-1">
-            <SunIcon className="w-4 h-4" />
+            <Sun className="w-4 h-4" />
             27° C
           </span>
         </div>
