@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { format, parseISO } from "date-fns";
 
 import { Reminders } from "../";
+import { renderTest } from "../../utils";
 
 const mockReminders = [
   {
@@ -22,19 +23,19 @@ const mockReminders = [
 
 describe("<Reminders />", () => {
   it("should render empty reminders state", () => {
-    render(<Reminders reminders={[]} selectedDay={new Date()} />);
+    renderTest(<Reminders reminders={[]} selectedDay={new Date()} />);
     expect(screen.getByText(/no reminder for today/i)).toBeInTheDocument();
     expect(screen.getByText(/no reminder for today/i)).toBeInTheDocument();
   });
   it("should render correct formated date", () => {
     const selectedDay = new Date();
     const formatedDate = format(selectedDay, "MMM dd, yyy");
-    render(<Reminders reminders={[]} selectedDay={selectedDay} />);
+    renderTest(<Reminders reminders={[]} selectedDay={selectedDay} />);
     expect(screen.getByText(formatedDate)).toBeInTheDocument();
   });
   it("should render one reminder for passed date and reminders list", () => {
     const selectedDay = "2022-07-06T03:00:00.000Z";
-    render(
+    renderTest(
       <Reminders
         reminders={mockReminders}
         selectedDay={parseISO(selectedDay)}
