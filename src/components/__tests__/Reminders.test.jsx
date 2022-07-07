@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { format, parseISO } from "date-fns";
 
-import Reminders from "../Reminders";
+import { Reminders } from "../";
 
 const mockReminders = [
   {

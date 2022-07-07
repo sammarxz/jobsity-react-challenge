@@ -17,26 +17,26 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PropTypes from "prop-types";
 
-import classNames from "../utils/classNames";
+import { classNames } from "../utils";
 
 function CalendarUI({ onSelectDate, reminders }) {
-  let today = startOfToday();
-  let [selectedDay, setSelectedDay] = useState(today);
-  let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
-  let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
+  const today = startOfToday();
+  const [selectedDay, setSelectedDay] = useState(today);
+  const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
+  const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
 
-  let days = eachDayOfInterval({
+  const days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
   });
 
   function previousMonth() {
-    let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
+    const firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
   function nextMonth() {
-    let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
+    const firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
@@ -129,7 +129,7 @@ CalendarUI.propTypes = {
   onSelectDate: PropTypes.func,
   reminders: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       title: PropTypes.string,
       startDate: PropTypes.string,
       endSate: PropTypes.string,
@@ -153,4 +153,4 @@ const colStartClasses = [
 
 const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-export default CalendarUI;
+export { CalendarUI };

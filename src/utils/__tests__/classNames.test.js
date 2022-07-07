@@ -1,4 +1,4 @@
-import classNames from "../classNames";
+import { classNames } from "../";
 
 describe("classNames", () => {
   it("classNames('class-1', 'class-2') should return a string: 'class-1 class-2'", () => {

@@ -1,14 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import App from "../pages/App";
-import Calendar from "../pages/Calendar";
+import { Home, Calendar } from "../pages";
 
 function routes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<App />} />
-        <Route exact path="/calendar" element={<Calendar />} />
+        <Route exact path="/" element={<Home />} />
+        <Route path="/calendar" element={<Calendar />} />
       </Routes>
     </BrowserRouter>
   );

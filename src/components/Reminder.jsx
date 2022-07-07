@@ -1,18 +1,27 @@
 import { Fragment } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { Menu, Transition } from "@headlessui/react";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, startOfToday, isBefore } from "date-fns";
 import { Pin, Clock, Sun, MoreVertical } from "lucide-react";
 import PropTypes from "prop-types";
 
-import classNames from "../utils/classNames";
+import { removeReminder } from "../store/actions";
+import { classNames } from "../utils";
 
 function Reminder({ reminder }) {
-  let startDateTime = parseISO(reminder.startDatetime);
-  let endDateTime = parseISO(reminder.endDatetime);
+  const dispatch = useDispatch();
+  const startDateTime = parseISO(reminder.startDatetime);
+  const endDateTime = parseISO(reminder.endDatetime);
+
+  const confirmDelete = async (id) => {
+    // TODO: confirm delete with some dialog
+    await dispatch(removeReminder(id));
+  };
 
   return (
-    <li className="flex items-center p-4 space-x-4 group rounded-xl focus-within:bg-gray-50 hover:bg-gray-50 border border-gray-200 relative mt-6 mb-4">
+    <li className="flex items-center p-4 space-x-4 group rounded-xl focus-within:bg-gray-50 hover:bg-gray-50 border border-gray-200 relative">
       <div className="flex flex-col flex-auto gap-1 flex-wrap">
         <p className="text-gray-900 text-base">{reminder.title}</p>
         <div className="flex flex-auto items-center gap-2">
@@ -59,30 +68,33 @@ function Reminder({ reminder }) {
         >
           <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
+              {!isBefore(startDateTime, startOfToday()) && (
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      to=""
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "block px-4 py-2 text-sm"
+                      )}
+                      state={{ modal: true, reminder }}
+                    >
+                      Edit
+                    </Link>
+                  )}
+                </Menu.Item>
+              )}
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href="#"
+                  <button
+                    onClick={() => confirmDelete(reminder.id)}
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm"
-                    )}
-                  >
-                    Edit
-                  </a>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm"
+                      "block w-full text-left px-4 py-2 text-sm"
                     )}
                   >
                     Delete
-                  </a>
+                  </button>
                 )}
               </Menu.Item>
             </div>
@@ -105,4 +117,4 @@ Reminder.propTypes = {
   ),
 };
 
-export default Reminder;
+export { Reminder };

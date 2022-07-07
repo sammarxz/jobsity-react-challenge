@@ -1,12 +1,13 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
-import { format, parseISO, isSameDay } from "date-fns";
+import { format, parseISO, isSameDay, isBefore, startOfToday } from "date-fns";
 import PropTypes from "prop-types";
 
-import Reminder from "./Reminder";
+import { Reminder } from "./";
 
 function Reminders({ reminders, selectedDay }) {
-  let selectedDayReminders = useMemo(
+  const selectedDayReminders = useMemo(
     () =>
       reminders.filter((reminder) =>
         isSameDay(parseISO(reminder.startDatetime), selectedDay)
@@ -22,23 +23,28 @@ function Reminders({ reminders, selectedDay }) {
           {format(selectedDay, "MMM dd, yyy")}
         </time>
       </h2>
-      <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-400 mb-4">
+      <ol className="my-5 space-y-1 text-sm leading-6 text-gray-400 flex flex-col gap-2">
         {selectedDayReminders.length > 0 ? (
           selectedDayReminders.map((meeting) => (
             <Reminder reminder={meeting} key={meeting.id} />
           ))
         ) : (
-          <p className="mt-6 mb-4 p-4 border border-gray-200 rounded-md">
+          <p className="p-4 border border-gray-200 rounded-md">
             No reminder for today.
           </p>
         )}
       </ol>
-      <button
-        type="button"
-        className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-opacity-75 w-full"
-      >
-        New Reminder
-      </button>
+      {!isBefore(selectedDay, startOfToday()) && (
+        <Link
+          to=""
+          className="block text-center rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white 
+        hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue 
+        focus-visible:ring-opacity-75 w-full"
+          state={{ modal: true }}
+        >
+          New Reminder
+        </Link>
+      )}
     </>
   );
 }
@@ -50,7 +56,7 @@ Reminders.propTypes = {
   ]).isRequired,
   reminders: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       title: PropTypes.string,
       startDate: PropTypes.string,
       endSate: PropTypes.string,
@@ -59,4 +65,4 @@ Reminders.propTypes = {
   ),
 };
 
-export default Reminders;
+export { Reminders };

@@ -21,4 +21,4 @@ Avatar.defaultProps = {
   size: 8,
 };
 
-export default Avatar;
+export { Avatar };
