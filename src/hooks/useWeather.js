@@ -2,10 +2,19 @@ import { useEffect, useState } from "react";
 
 import axios from "redaxios";
 
-function useWeather(location) {
+function useWeather(location, test) {
   const [weather, setWeather] = useState();
 
   useEffect(() => {
+    // mock for testing purposes
+    if (test) {
+      setWeather({
+        temperature: 29,
+        icon: "Clouds",
+      });
+      return;
+    }
+
     const fetchData = async () => {
       await axios
         .get(
