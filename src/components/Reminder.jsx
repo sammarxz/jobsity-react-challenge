@@ -4,9 +4,18 @@ import { Link } from "react-router-dom";
 
 import { Menu, Transition } from "@headlessui/react";
 import { format, parseISO, startOfToday, isBefore } from "date-fns";
-import { Pin, Clock, Sun, MoreVertical } from "lucide-react";
+import {
+  Pin,
+  Clock,
+  MoreVertical,
+  CloudRain,
+  Sun,
+  CloudSun,
+  Thermometer,
+} from "lucide-react";
 import PropTypes from "prop-types";
 
+import { useWeather } from "../hooks";
 import { removeReminder } from "../store/actions";
 import { classNames } from "../utils";
 
@@ -14,10 +23,43 @@ function Reminder({ reminder }) {
   const dispatch = useDispatch();
   const startDateTime = parseISO(reminder.startDatetime);
   const endDateTime = parseISO(reminder.endDatetime);
+  const { weather } = useWeather(reminder.location);
 
   const confirmDelete = async (id) => {
     // TODO: confirm delete with some dialog
     await dispatch(removeReminder(id));
+  };
+
+  const renderWeather = () => {
+    let result;
+
+    if (!weather) {
+      result = null;
+    } else {
+      result = (
+        <>
+          {renderIcon(weather.icon)}
+          {weather.temperature} °
+        </>
+      );
+    }
+
+    return <span className="flex items-center gap-1">{result}</span>;
+  };
+
+  const renderIcon = (forecast) => {
+    const classNames = "w-4 h-4 text-blue-500";
+
+    switch (forecast) {
+      case "Clear":
+        return <Sun className={classNames} />;
+      case "Clouds":
+        return <CloudSun className={classNames} />;
+      case "Rain":
+        return <CloudRain className={classNames} />;
+      default:
+        return <Thermometer className={classNames} />;
+    }
   };
 
   return (
@@ -41,10 +83,7 @@ function Reminder({ reminder }) {
             <Pin className="w-4 h-4 text-blue-500" />
             {reminder.location}
           </span>
-          <span className="flex items-center gap-1">
-            <Sun className="w-4 h-4 text-blue-500" />
-            27° C
-          </span>
+          {renderWeather()}
         </div>
       </div>
       <Menu

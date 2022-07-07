@@ -12,26 +12,26 @@ function makeServer({ environment = "development" } = {}) {
         title: "Meet with Leslie Alexander",
         startDatetime: "2022-07-05T13:00",
         endDatetime: "2022-07-05T14:30",
-        location: "Caruaru, PE",
+        location: "Caruaru",
       });
       server.create("reminder", {
         id: 2,
         title: "Remender to buy milk",
         startDatetime: "2022-07-20T09:00",
         endDatetime: "2022-07-20T11:30",
-        location: "Caruaru, PE",
+        location: "Caruaru",
       });
       server.create("reminder", {
         id: 3,
         title: "Go to a dinner with Sara",
         startDatetime: "2022-07-22T17:00",
         endDatetime: "2022-07-22T18:30",
-        location: "Caruaru, PE",
+        location: "Caruaru",
       });
     },
     routes() {
       this.urlPrefix = "http://localhost:3000";
-      this.namespace = "api";
+      this.namespace = "/api";
 
       this.get("/reminders", (schema) => {
         return schema.reminders.all();
@@ -50,6 +50,8 @@ function makeServer({ environment = "development" } = {}) {
       this.delete("/reminders/:id", (schema, request) => {
         return schema.reminders.find(request.params.id).destroy();
       });
+
+      this.passthrough("https://api.openweathermap.org/*");
     },
   });
 
